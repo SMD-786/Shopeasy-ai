@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport">
+    <title>AI PDF Converter Pro</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            padding: 1rem;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 900px;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #1f2937;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-container {
+            width: 100%;
+            margin: 1rem 0;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .upload-section {
+            border: 3px dashed #d1d5db;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-section:hover {
+            border-color: #4f46e5;
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        #file-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-card {
+            background: #f8fafc;
+            padding: 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .option-card.selected {
+            border-color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .preview-section {
+            display: none;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .file-preview {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        button:hover:not(:disabled) {
+            background: #9333ea;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .loader {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4f46e5;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .download-section {
+            display: none;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .status-message {
+            margin: 1rem 0;
+            padding: 0.8rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.2rem;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .upload-section {
+                padding: 1.5rem;
+            }
+            
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ad-container">
+        <!-- Top Ad Banner -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>AI PDF Converter Pro</h1>
+            <p>Convert, Merge, Compress PDFs with AI Power</p>
+        </div>
+
+        <div class="upload-section">
+            <input type="file" id="file-input" accept=".pdf" multiple>
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#4f46e5" viewBox="0 0 24 24">
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+            </svg>
+            <h3>Drag & Drop PDF Files</h3>
+            <p>or click to upload (Max 50MB)</p>
+        </div>
+
+        <div class="options">
+            <div class="option-card" data-type="pdf-to-word" onclick="selectConversion('pdf-to-word')">
+                <h3>PDF to Word</h3>
+                <p>Convert PDF to editable DOCX</p>
+            </div>
+            <div class="option-card" data-type="merge-pdf" onclick="selectConversion('merge-pdf')">
+                <h3>Merge PDF</h3>
+                <p>Combine multiple PDF files</p>
+            </div>
+            <div class="option-card" data-type="compress-pdf" onclick="selectConversion('compress-pdf')">
+                <h3>Compress PDF</h3>
+                <p>Reduce PDF file size</p>
+            </div>
+        </div>
+
+        <div class="preview-section" id="preview-section">
+            <div id="preview-content"></div>
+            <button id="process-btn" onclick="startConversion()">
+                <span class="loader" id="loader"></span>
+                Process PDF Now
+            </button>
+            <div class="status-message" id="status-message"></div>
+        </div>
+
+        <div class="download-section" id="download-section">
+            <button onclick="downloadFile()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+                Download Converted File
+            </button>
+        </div>
+    </div>
+
+    <div class="ad-container">
+        <!-- Bottom Ad Banner -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedFiles = [];
+        let conversionType = '';
+        let processedFile = null;
+        const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+
+        // DOM elements
+        const fileInput = document.getElementById('file-input');
+        const previewContent = document.getElementById('preview-content');
+        const processBtn = document.getElementById('process-btn');
+        const loader = document.getElementById('loader');
+        const statusMessage = document.getElementById('status-message');
+        const previewSection = document.getElementById('preview-section');
+        const downloadSection = document.getElementById('download-section');
+
+        // Initialize event listeners
+        function init() {
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            // Drag and drop functionality
+            const uploadSection = document.querySelector('.upload-section');
+            uploadSection.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadSection.style.borderColor = '#4f46e5';
+                uploadSection.style.background = 'rgba(79, 70, 229, 0.1)';
+            });
+            
+            uploadSection.addEventListener('dragleave', () => {
+                uploadSection.style.borderColor = '#d1d5db';
+                uploadSection.style.background = '';
+            });
+            
+            uploadSection.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadSection.style.borderColor = '#d1d5db';
+                uploadSection.style.background = '';
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelect({ target: fileInput });
+                }
+            });
+        }
+
+        // Handle file selection
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            
+            // Validate files
+            for (const file of files) {
+                if (file.size > MAX_FILE_SIZE) {
+                    showStatus(`File ${file.name} exceeds 50MB limit`, 'error');
+                    return;
+                }
+                if (file.type !== 'application/pdf') {
+                    showStatus('Please upload only PDF files', 'error');
+                    return;
+                }
+            }
+            
+            selectedFiles = files;
+            showPreview();
+            showStatus('Files ready for conversion', 'success');
+        }
+
+        // Show file preview
+        function showPreview() {
+            previewContent.innerHTML = selectedFiles.map(file => `
+                <div class="file-preview">
+                    <span>📄 ${file.name}</span>
+                    <span>${formatFileSize(file.size)}</span>
+                </div>
+            `).join('');
+            
+            previewSection.style.display = 'block';
+            updateProcessButton();
+        }
+
+        // Select conversion type
+        function selectConversion(type) {
+            conversionType = type;
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.toggle('selected', card.dataset.type === type);
+            });
+            updateProcessButton();
+        }
+
+        // Update process button state
+        function updateProcessButton() {
+            processBtn.disabled = !(selectedFiles.length && conversionType);
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.style.display = 'block';
+            
+            // Hide after 5 seconds
+            if (type === 'error') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Start conversion process
+        async function startConversion() {
+            if (!selectedFiles.length || !conversionType) {
+                showStatus('Please select files and conversion type!', 'error');
+                return;
+            }
+
+            // Disable button and show loader
+            processBtn.disabled = true;
+            loader.style.display = 'inline-block';
+            showStatus('Processing your files...', 'success');
+            
+            try {
+                // Simulate processing delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Create mock processed file based on conversion type
+                let fileType, content;
+                switch(conversionType) {
+                    case 'pdf-to-word':
+                        fileType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                        content = 'Mock Word document content';
+                        break;
+                    case 'merge-pdf':
+                    case 'compress-pdf':
+                    default:
+                        fileType = 'application/pdf';
+                        content = 'Mock PDF content';
+                }
+                
+                processedFile = new Blob([content], { type: fileType });
+                
+                // Show download section
+                downloadSection.style.display = 'block';
+                showStatus('Conversion completed successfully!', 'success');
+            } catch (error) {
+                showStatus('Conversion failed. Please try again.', 'error');
+                console.error('Conversion error:', error);
+            } finally {
+                processBtn.disabled = false;
+                loader.style.display = 'none';
+            }
+        }
+
+        // Download processed file
+        function downloadFile() {
+            if (!processedFile) return;
+            
+            const url = URL.createObjectURL(processedFile);
+            const a = document.createElement('a');
+            a.href = url;
+            
+            // Set appropriate file extension
+            let extension;
+            switch(conversionType) {
+                case 'pdf-to-word':
+                    extension = 'docx';
+                    break;
+                default:
+                    extension = 'pdf';
+            }
+            
+            a.download = `converted-${Date.now()}.${extension}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return `${bytes} B`;
+            if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+            return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+        }
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>

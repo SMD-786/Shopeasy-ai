@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Empire | Courses, Tools & More</title>
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --text-color: #111;
+      --primary-color: #ff4500;
+      --card-bg: #ffffff;
+      --header-bg: #1f1f1f;
+    }
+
+    body.dark {
+      --bg-color: #121212;
+      --text-color: #f1f1f1;
+      --card-bg: #1e1e1e;
+      --header-bg: #000;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .service {
+      background: var(--header-bg);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .service h1 {
+      font-size: 2.8rem;
+    }
+
+    .service p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
+    .cta-button, .final-cta button, .card button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 6px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .cta-button:hover,
+    .card button:hover,
+    .final-cta button:hover {
+      transform: scale(1.05);
+      background-color: #e03e00;
+    }
+
+    .toggle-darkmode {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      color: white;
+      border: 2px solid white;
+      padding: 5px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 40px 20px;
+      background-color: var(--card-bg);
+    }
+
+    .feature-item {
+      flex: 1 1 200px;
+      margin: 10px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .carousel {
+      background-color: #f1f1f1;
+      padding: 50px 20px;
+    }
+
+    body.dark .carousel {
+      background-color: #222;
+    }
+
+    .carousel h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 10px;
+    }
+
+    .card {
+      flex: 0 0 250px;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    .final-cta {
+      background-color: var(--header-bg);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .final-cta h2 {
+      margin-bottom: 20px;
+    }
+
+    @media(max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      .card {
+        flex: 0 0 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="service">
+    <button class="toggle-darkmode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    <h1>Level Up with Digital Tools Designed to Dominate</h1>
+    <p>Courses. E-books. Games. Templates. AI Tools. All in one place.</p>
+    <button class="cta-button">Explore Products</button>
+  </div>
+
+  <section class="features">
+    <div class="feature-item"><strong>Instant Access</strong><br>No waiting, start now.</div>
+    <div class="feature-item"><strong>Zero Experience Needed</strong><br>Beginner-friendly, pro-quality.</div>
+    <div class="feature-item"><strong>One-Time Payment</strong><br>Lifetime updates included.</div>
+    <div class="feature-item"><strong>High Performance</strong><br>Built to get results.</div>
+    <div class="feature-item"><strong>Trusted by 10K+</strong><br>Real impact, real fast.</div>
+  </section>
+
+  <section class="carousel">
+    <h2>Explore Our Digital Categories</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>Online Courses</h3>
+        <p>Learn fast. Earn faster. Expert-taught lessons with real impact.</p>
+        <button>Browse Courses</button>
+      </div>
+      <div class="card">
+        <h3>E-books</h3>
+        <p>One book can change everything. Quick reads, deep insights.</p>
+        <button>See E-books</button>
+      </div>
+      <div class="card">
+        <h3>Games</h3>
+        <p>Challenge your brain. Fun, addictive, and skill-boosting.</p>
+        <button>Play Now</button>
+      </div>
+      <div class="card">
+        <h3>Website Templates</h3>
+        <p>Pixel-perfect design. Launch-ready and 100% customizable.</p>
+        <button>View Templates</button>
+      </div>
+      <div class="card">
+        <h3>AI Tools</h3>
+        <p>Automate. Dominate. Work smarter with cutting-edge AI tools.</p>
+        <button>Try AI Tools</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <h2>Everything You Need to Win Is One Click Away</h2>
+    <button>Get Instant Access Now</button>
+  </section>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+
+</body>
+</html>

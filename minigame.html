@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Shopeasy AI – Mini Game Center</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    
+    :root {
+      --color-bg: #ffffff;
+      --color-fg: #000000;
+      --color-primary: #1e1e2f;
+      --color-secondary: #2e2e4d;
+      --color-accent: #ffcc00;
+    }
+
+    [data-theme="dark"] {
+      --color-bg: #1e1e2f;
+      --color-fg: #ffffff;
+      --color-primary: #2e2e4d;
+      --color-secondary: #1e1e2f;
+      --color-accent: #ffcc00;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #1e1e2f, #2c2c3f);
+      color: #fff;
+      min-height: 100vh;
+    }
+    
+    
+     .navbar {  
+        display: flex;  
+        justify-content: space-between;  
+        align-items: center;  
+        background-color: var(--header-bg);  
+        padding: 20px 20px;  
+        color: white;  
+        border-bottom: 2px solid #101abdc9;
+          
+    }  
+    
+
+    .logo {  
+        font-size: 24px;  
+        font-weight: bold;  
+    }  
+
+   
+   
+    
+    .account {  
+         
+         margin-left:12rem;
+        cursor: pointer;  
+        position: relative;  
+    }  
+
+    .account-menu {  
+        display: none;  
+        position: absolute;  
+        top: 35px;  
+        right: 0;  
+        background: white;  
+        color: black;  
+        padding: 10px;  
+        border-radius: 5px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+    }  
+
+    .account-menu a {  
+        display: block;  
+        padding: 8px 12px;  
+        text-decoration: none;  
+        color: black;  
+    }  
+
+    .account-menu a:hover {  
+        background: #f2f2f2; 
+        color:white; 
+    }  
+
+    .menu-icon {  
+        display: none;  
+        font-size: 24px;  
+        cursor: pointer;  
+    }  
+
+    @media (max-width: 768px) {  
+        
+
+        .menu-icon {  
+            display: block;  
+        }  
+    } 
+    
+    
+
+    header {
+      background-color: #0d0d1a;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      color: #ffcc00;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .search-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .search-section input {
+      width: 50%;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .search-section input:focus {
+      box-shadow: 0 0 10px #ffcc00;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 10px 20px;
+      background-color: #1a1a2e;
+    }
+
+    nav button {
+      background-color: #ffcc00;
+      color: #1a1a2e;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    nav button:hover {
+      background-color: #e6b800;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .game-card {
+      background-color: #2e2e4d;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.5);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .game-card .content {
+      padding: 15px;
+    }
+
+    .game-card .content h3 {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      color: #ffcc00;
+    }
+
+    .game-card .content p {
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      .search-section input {
+        width: 80%;
+      }
+    }
+    
+    
+  /* ========== FOOTER SECTION ========== */
+            .footer {
+            background: #2e2e4d;
+            color: white;
+            padding-top: 40px;
+            margin-top: 50px;
+            text-align:center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            width: 250px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ff9900;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ff9900;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding: 30px 20px 30px 20px;
+            background:  #1a1a2e;
+            font-size: 14px;
+            color: white;
+            
+            
+        } 
+        
+         
+
+    /* Side Menu */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: var(--color-secondary);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  padding-top: 60px;
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+    .side-menu h3 {
+      color: var(--color-accent);
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.3em;
+    }
+
+    .side-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 25px;
+      color: var(--color-fg);
+      text-decoration: none;
+      font-size: 1.1em;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.3s ease;
+    }
+
+    .side-menu a:hover {
+      background-color: var(--color-accent);
+      color: var(--color-primary);
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* Dark Mode Toggle Button */
+    .theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 60px;
+      background: none;
+      border: none;
+      color: var(--color-fg);
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+   .side-menu {
+  transform: translateX(-100%);
+  /* already correct */
+}  
+.menu-icon {
+  font-size: 26px;
+  cursor: pointer;
+  user-select: none;
+}
+  </style>
+</head>
+<body>
+
+<nav class="navbar">  
+    <div class="logo">ShopEasy</div>  
+     <div class="side-menu" id="sideMenu">
+    <h3><i class="fas fa-bars"></i> Shopeasy Menu</h3>
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="#"><i class="fas fa-store"></i> Shop</a>
+    <a href="#"><i class="fas fa-headset"></i> Customer Care</a>
+    <a href="tool.html"><i class="fas fa-robot"></i> AI Tools</a>
+    <a href="minigame.html"><i class="fas fa-gamepad"></i> Games</a>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+  
+     
+    <div class="account" onclick="toggleAccountMenu()">👤  
+        <div class="account-menu" id="accountMenu">  
+            <a href="checkout.html">Profile</a>  
+            <a href="#">Orders</a>  
+            <a href="#">Logout</a>  
+        </div>  
+    </div>  
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>  
+</nav>  
+
+
+
+  <header>
+    <h1>Shopeasy AI – Mini Game Center</h1>
+  </header>
+
+  <section class="search-section">
+    <input type="text" id="searchInput" placeholder="Search for games..." onkeyup="filterGames()" />
+  </section>
+
+  <nav>
+    <button onclick="filterCategory('All')">All</button>
+    <button onclick="filterCategory('Action')">Action</button>
+    <button onclick="filterCategory('Adventure')">Adventure</button>
+    <button onclick="filterCategory('Puzzle')">Puzzle</button>
+    <button onclick="filterCategory('Racing')">Racing</button>
+    <button onclick="filterCategory('Strategy')">Strategy</button>
+  </nav>
+
+  <section class="gallery" id="gameGallery">
+    <!-- Game cards will be injected here by JavaScript -->
+  </section>
+
+  <script>
+    const games = [
+
+       {
+        title: "Flappy Bird",
+        category: "adventure",
+        description: "Experience high-speed racing with stunning graphics.",
+        image: "flappy-thumbnail.png",
+        link: "https://www.crazygames.com/game/extreme-drift-car-simulator"
+      },
+     
+      {
+        title: "Speed Racer",
+        category: "Racing",
+        description: "Experience high-speed racing with stunning graphics.",
+        image: "bb.jpg",
+        link: "https://www.crazygames.com/game/extreme-drift-car-simulator"
+      },
+      {
+        title: "Mystic Quest",
+        category: "Adventure",
+        description: "Embark on an epic journey through mystical lands.",
+        image: "https://via.placeholder.com/300x150?text=Mystic+Quest"
+      },
+      {
+        title: "Brain Teasers",
+        category: "Puzzle",
+        description: "Challenge your mind with intricate puzzles.",
+        image: "https://via.placeholder.com/300x150?text=Brain+Teasers"
+      },
+      {
+        title: "Battle Arena",
+        category: "Action",
+        description: "Engage in thrilling combat in the battle arena.",
+        image: "https://via.placeholder.com/300x150?text=Battle+Arena"
+      },
+      {
+        title: "Empire Builder",
+        category: "Strategy",
+        description: "Build and manage your own empire strategically.",
+        image: "https://via.placeholder.com/300x150?text=Empire+Builder"
+      },
+      {
+        title: "Jungle Run",
+        category: "Adventure",
+        description: "Navigate through the jungle in this endless runner.",
+        image: "https://via.placeholder.com/300x150?text=Jungle+Run"
+      }
+    ];
+
+    const gallery = document.getElementById('gameGallery');
+
+    function displayGames(filteredGames) {
+      gallery.innerHTML = '';
+      filteredGames.forEach(game => {
+        const card = document.createElement('div');
+        card.classList.add('game-card');
+        card.innerHTML = `
+          <img src="${game.image}" alt="${game.title}">
+          <div class="content">
+            <h3>${game.title}</h3>
+            <p>${game.description}</p>
+          </div>
+        `;
+        gallery.appendChild(card);
+      });
+    }
+
+    function filterGames() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = games.filter(game => game.title.toLowerCase().includes(query));
+      displayGames(filtered);
+    }
+
+    function filterCategory(category) {
+      if (category === 'All') {
+        displayGames(games);
+      } else {
+        const filtered = games.filter(game => game.category === category);
+        displayGames(filtered);
+      }
+    }
+
+    // Initial display
+    displayGames(games);
+    
+    
+    
+      function toggleAccountMenu() {  
+        let menu = document.getElementById('accountMenu');  
+        menu.style.display = menu.style.display === "block" ? "none" : "block";  
+    }  
+
+    window.onclick = function(event) {  
+        if (!event.target.matches('.account')) {  
+            document.getElementById('accountMenu').style.display = "none";  
+        }  
+    };
+     
+     
+      function toggleMenu() {
+      const menu = document.getElementById('sideMenu');
+      const overlay = document.getElementById('overlay');
+      menu.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+    
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Load saved theme from localStorage
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    })();
+    
+      // Close menu on large screens if already open (optional safety)
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768 && !menu.classList.contains('open')) {
+      overlay.classList.remove('active');
+    }
+  });
+  </script>
+  
+  
+  <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">@copyright 2025</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Term & Condition</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 [Your Brand Name]. All Rights Reserved.
+        </div>
+    </footer>
+    
+
+</body>
+</html>

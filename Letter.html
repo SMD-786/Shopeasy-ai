@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Letter/Application Generator - ShopEasy Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #eef2f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }.container {
+  width: 95%;
+  max-width: 900px;
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #1e40af;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+label {
+  font-weight: 500;
+  color: #1f2937;
+  margin-top: 1rem;
+  display: block;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-top: 6px;
+  margin-bottom: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+textarea {
+  height: 120px;
+}
+
+.btn-group {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0 10px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #1e3a8a;
+}
+
+.output-box {
+  margin-top: 2.5rem;
+  border: 1px dashed #94a3b8;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  white-space: pre-wrap;
+  font-size: 1rem;
+  color: #111827;
+}
+
+@media (max-width: 600px) {
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+  </style>
+</head>
+<body><div class="container">
+  <h2>AI Letter / Application Generator</h2><label for="sender">Your Full Name:</label> <input type="text" id="sender" placeholder="e.g. Alex Johnson" />
+
+<label for="receiver">To (e.g. Principal, Manager):</label> <input type="text" id="receiver" placeholder="e.g. The Principal, ABC School" />
+
+<label for="reason">Reason/Subject:</label> <input type="text" id="reason" placeholder="e.g. Request for Sick Leave" />
+
+<label for="date">Date:</label> <input type="date" id="date" />
+
+<label for="template">Select a Template:</label> <select id="template"> <option value="leave">School Leave Application</option> <option value="job">Job Application</option> <option value="custom">Custom</option> </select>
+
+<label for="signature">Signature Name:</label> <input type="text" id="signature" placeholder="e.g. Alex Johnson" />
+
+  <div class="btn-group">
+    <button onclick="generateApplication()">Generate</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+  </div>  <div class="output-box" id="output">Your generated application/letter will appear here...</div>
+</div><script>
+  function generateApplication() {
+    const sender = document.getElementById('sender').value;
+    const receiver = document.getElementById('receiver').value;
+    const reason = document.getElementById('reason').value;
+    const date = document.getElementById('date').value;
+    const template = document.getElementById('template').value;
+    const signature = document.getElementById('signature').value;
+
+    let output = document.getElementById('output');
+    if (!sender || !receiver || !reason || !date || !signature) {
+      output.innerText = "Please fill in all the fields.";
+      return;
+    }
+
+    let letter = "";
+
+    if (template === "leave") {
+      letter = `Date: ${date}\n\nTo,\n${receiver},\n\nSubject: ${reason}\n\nRespected Sir/Madam,\n\nI am writing to inform you that I am not feeling well and will not be able to attend school/work from today. I kindly request you to grant me leave for 2-3 days.\n\nThank you for your understanding.\n\nYours sincerely,\n${sender}\n\nSignature: ${signature}`;
+    } else if (template === "job") {
+      letter = `Date: ${date}\n\nTo,\n${receiver},\n\nSubject: ${reason}\n\nRespected Sir/Madam,\n\nI am writing to apply for the position mentioned above. I believe I have the qualifications and skills suitable for this job. I would appreciate the opportunity to be part of your team.\n\nPlease find my resume attached.\n\nThank you for considering my application.\n\nSincerely,\n${sender}\n\nSignature: ${signature}`;
+    } else {
+      letter = `Date: ${date}\n\nTo,\n${receiver},\n\nSubject: ${reason}\n\nRespected Sir/Madam,\n\n[Write your custom message here...]\n\nYours sincerely,\n${sender}\n\nSignature: ${signature}`;
+    }
+
+    output.innerText = letter;
+  }
+
+  function downloadPDF() {
+    const content = document.getElementById("output").innerText;
+    if (!content || content.includes("fill in all")) {
+      alert("Please generate the letter first.");
+      return;
+    }
+
+    const blob = new Blob([content], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Letter_Application.pdf";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+</script></body>
+</html>

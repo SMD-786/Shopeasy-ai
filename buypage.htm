@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+    <title>Digital Product - Amazon Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+k
+        }
+
+
+ .navbar {  
+        display: flex;  
+        justify-content: space-between;  
+        align-items: center;  
+        background-color: #333;  
+        padding: 10px 20px;  
+        color: white;  
+          
+    }  
+
+    .logo {  
+        font-size: 24px;  
+        font-weight: bold;  
+    }  
+
+    .search-box {  
+        flex: 1;  
+        margin: 0 20px;  
+        position: relative;  
+    }  
+
+    .search-box input {  
+        width: 100%;  
+        padding: 8px;  
+        border: none;  
+        border-radius: 5px;  
+    }  
+
+    .search-results {  
+        position: absolute;  
+        top: 35px;  
+        left: 0;  
+        width: 100%;  
+        background: white;  
+        color: black;  
+        display: none;  
+        border-radius: 5px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+        margin: 0 5px 0 5px;  
+    }  
+
+    .search-results div {  
+        padding: 10px;  
+        cursor: pointer;  
+    }  
+
+    .search-results div:hover {  
+        background-color: #f2f2f2;  
+    }  
+
+    .nav-links {  
+        list-style: none;  
+        display: flex;  
+    }  
+
+    .nav-links li {  
+        margin: 0 10px;  
+    }  
+
+    .nav-links a {  
+        color: white;  
+        text-decoration: none;  
+        
+        transition: 0.3s;  
+    }  
+
+   .nav-links a:hover {  
+        color:#ffbd15;
+        border-radius: 5px; 
+        link-style:none; 
+        padding:0;
+        margin:0;
+    }  
+    
+    }  
+
+    .cart {  
+        margin-left: 20px;  
+        cursor: pointer;  
+    }  
+
+    .cart span {  
+        background: red;  
+        color: white;  
+        padding: 3px 7px;  
+        border-radius: 50%;  
+        font-size: 14px;  
+        margin-left: 5px;  
+    }  
+
+    .account {  
+        margin-left: 20px;  
+        margin-right:10px;  
+        cursor: pointer;  
+        position: relative;  
+    }  
+
+    .account-menu {  
+        display: none;  
+        position: absolute;  
+        top: 35px;  
+        right: 0;  
+        background: white;  
+        color: black;  
+        padding: 10px;  
+        border-radius: 5px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+    }  
+
+    .account-menu a {  
+        display: block;  
+        padding: 8px 12px;  
+        text-decoration: none;  
+        color: black;  
+    }  
+
+    .account-menu a:hover {  
+        background: #f2f2f2;  
+    }  
+
+    .menu-icon {  
+        display: none;  
+        font-size: 24px;  
+        cursor: pointer;  
+    }  
+
+    @media (max-width: 768px) {  
+        .nav-links {  
+            display: none;  
+            flex-direction: column;  
+            position: absolute;  
+            top: 60px;  
+            right: 20px;  
+            background-color: #333;  
+            width: 200px;  
+            text-align: center;  
+            border-radius: 5px;  
+        }  
+
+        .nav-links.active {  
+            display: flex;  
+        }  
+
+        .menu-icon {  
+            display: block;  
+        }  
+    }
+        .container {
+
+            max-width: 1000px;
+            margin-top:5em;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-images {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-image {
+            width: 90%;
+            
+            border-radius: 5px;
+        }
+
+        .thumbnails {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .thumbnails img {
+            width: 60px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 2px solid transparent;
+        }
+
+        .thumbnails img:hover {
+            border-color: orange;
+        }
+
+        .product-details {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .price {
+            font-size: 22px;
+            color: #b12704;
+            margin: 10px 0;
+        }
+
+        .discount {
+            font-size: 14px;
+            color: #007600;
+        }
+
+        .product-description {
+            margin: 15px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .features {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            margin-bottom: 5px;
+        }
+
+        .buttons {
+            margin: 20px 0;
+        }
+
+        .add-to-cart, .buy-now {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .add-to-cart {
+            background-color: #ffa41c;
+            color: black;
+        }
+
+        .buy-now {
+            background-color: #ff9900;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .customer-reviews {
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff3cd;
+            border-radius: 5px;
+        }
+
+        .review {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .review:last-child {
+            border-bottom: none;
+        }
+
+        .review h4 {
+            margin: 0;
+            color: #007185;
+        }
+
+        .rating {
+            color: #ffa41c;
+        }
+        .cart-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.cart-modal h3 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.cart-modal p {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.cart-modal .close-btn {
+    display: block;
+    margin-top: 20px;
+    background-color: #ff9900;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cart-modal .close-btn:hover {
+    background-color: #e08900;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+    </style>
+</head>
+<body>
+
+ <header>
+     <nav class="navbar">  
+    <div class="logo">ShopEasy</div>  
+    <div class="search-box">  
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">  
+        <div class="search-results" id="searchResults"></div>  
+    </div>  
+    <ul class="nav-links">  
+        <li><a href="#">Home</a></li>  
+        <li><a href="#">Shop</a></li>  
+        <li><a href="#">Categories</a></li>  
+        <li><a href="#">Deals</a></li>  
+        <li><a href="#">Contact</a></li>  
+    </ul>  
+    <div class="cart" onclick="viewCart()">🛒 <span id="cartCount">0</span></div>  
+    <div class="account" onclick="toggleAccountMenu()">👤  
+        <div class="account-menu" id="accountMenu">  
+            <a href="#">Profile</a>  
+            <a href="#">Orders</a>  
+            <a href="#">Logout</a>  
+        </div>  
+    </div>  
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>  
+</nav>  
+ </header> 
+
+  
+ 
+    <div class="container">
+        <!-- Product Images -->
+        <div class="product-images">
+            <img id="mainImage" src="bb.jpg" class="main-image" alt="Product">
+            <div class="thumbnails">
+                <img src="bb.jpg" onclick="changeImage('bb.jpg')" alt="Thumbnail 1">
+                <img src="me.jpg" onclick="changeImage('me.jpg')" alt="Thumbnail 2">
+                <img src="r.jpg" onclick="changeImage('r.jpg')" alt="Thumbnail 3">
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="product-details">
+            <h1 class="product-title">Digital Product - Premium Software</h1>
+            <div class="price">$49.99 <span class="discount">(20% OFF)</span></div>
+            <p class="product-description">Get instant access to our premium software. Enhance your productivity with advanced features, regular updates, and a seamless experience.</p>
+
+            <ul class="features">
+                <li>✔ Lifetime Access</li>
+                <li>✔ Regular Updates</li>
+                <li>✔ Compatible with Windows & Mac</li>
+                <li>✔ Instant Download</li>
+            </ul>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <button class="add-to-cart" onclick="addToCart()">Add to Cart 🛒</button>
+                <button class="buy-now" onclick="buyNow()">Buy Now ⚡</button>
+            </div>
+
+            <!-- Customer Reviews -->
+            <div class="customer-reviews">
+                <h3>Customer Reviews:</h3>
+                <div class="review">
+                    <h4>John Doe <span class="rating">★★★★★</span></h4>
+                    <p>"Amazing software! The best I've used so far. Highly recommended!"</p>
+                </div>
+                <div class="review">
+                    <h4>Sarah Lee <span class="rating">★★★★☆</span></h4>
+                    <p>"Great features and easy to use. Worth the price!"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        
+        let cartCount = 0;  
+    let products = ["Laptop", "Smartphone", "Headphones", "Camera", "Smartwatch", "Shoes", "T-shirt"];  
+   
+
+    function toggleMenu() {  
+        document.querySelector('.nav-links').classList.toggle('active');  
+    }  
+
+    function searchProducts() {  
+        let input = document.getElementById('searchInput').value.toLowerCase();  
+        let results = document.getElementById('searchResults');  
+        results.innerHTML = "";  
+        if (input) {  
+            let filteredProducts = products.filter(product => product.toLowerCase().includes(input));  
+            filteredProducts.forEach(product => {  
+                let div = document.createElement("div");  
+                div.innerHTML = product;  
+                div.onclick = function() {  
+                    alert("You searched for: " + product);  
+                    results.style.display = "none";  
+                };  
+                results.appendChild(div);  
+            });  
+            results.style.display = "block";  
+        } else {  
+            results.style.display = "none";  
+        }  
+    }  
+
+    function addToCart() {  
+        cartCount++;  
+        document.getElementById("cartCount").innerText = cartCount;  
+        alert("Item added to cart!");  
+    }  
+
+    function viewCart() {  
+        alert("You have " + cartCount + " items in your cart.");  
+    }  
+    
+    // Simulated login check function
+function isLoggedIn() {
+    return localStorage.getItem("loggedIn") === "true";
+}
+
+    function toggleAccountMenu() {
+    if (isLoggedIn()) {
+        const menu = document.getElementById("accountMenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    } else {
+        alert("You are not logged in. Redirecting to login page...");
+        window.location.href = "login.html"; // replace with your actual login page
+    }
+}
+// Simulate login
+localStorage.setItem("loggedIn", "true");
+
+// Simulate logout
+localStorage.removeItem("loggedIn");
+        
+        function changeImage(imageSrc) {
+            document.getElementById("mainImage").src = imageSrc;
+        }
+
+        function addToCart() {
+            alert("Product added to cart! 🛒");
+        }
+
+        function buyNow() {
+            alert("Redirecting to checkout... 🛍️");
+        }
+        
+      let cartItems = [];
+
+
+function addToCart() {
+    const product = {
+        name: "Digital Product - Premium Software",
+        price: "$49.99",
+        url: "buy-now.html" // Example product page
+    };
+    cartItems.push(product);
+    cartCount = cartItems.length;
+    document.getElementById("cartCount").innerText = cartCount;
+    alert("Product added to cart! 🛒");
+}
+
+function viewCart() {
+    const existingModal = document.querySelector(".cart-modal");
+    if (existingModal) existingModal.remove();
+
+    let cartHTML = "<h3>Your Cart</h3>";
+    if (cartItems.length === 0) {
+        cartHTML += "<p>No items in cart.</p>";
+    } else {
+        cartItems.forEach((item, index) => {
+            cartHTML += `
+                <p>
+                    <strong><a href="${item.url}" target="_blank" style="text-decoration:none; color:#007185;">${index + 1}. ${item.name}</a></strong> - ${item.price}
+                    <button onclick="removeFromCart(${index})" style="float:right; background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Remove</button>
+                </p>
+            `;
+        });
+    }
+
+    const modal = document.createElement("div");
+    modal.classList.add("cart-modal");
+    modal.innerHTML = cartHTML + `<button class="close-btn" onclick="this.parentElement.remove()">Close Cart</button>`;
+    document.body.appendChild(modal);
+}
+
+// Expose the function to the global window scope
+window.removeFromCart = function(index) {
+    cartItems.splice(index, 1);
+    cartCount = cartItems.length;
+    document.getElementById("cartCount").innerText = cartCount;
+    document.querySelector(".cart-modal").remove();
+    viewCart(); // Re-render the cart modal
+};
+    </script>
+
+</body>
+</html>

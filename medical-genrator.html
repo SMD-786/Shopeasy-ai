@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medical Report & Certificate Generator - ShopEasy AI Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 750px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+    }
+    h2 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 1.5rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.9rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: block;
+      color: #374151;
+    }
+    button {
+      background-color: #2563eb;
+      color: white;
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #1e40af;
+    }
+    .output-box {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 2px dashed #d1d5db;
+      background-color: #f3f4f6;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      color: #111827;
+    }
+    #customReason {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 1rem; }
+      button { width: 100%; margin-bottom: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>AI Medical Report & Certificate Generator</h2>
+
+  <label for="name">Patient's Full Name:</label>
+  <input type="text" id="name" placeholder="e.g. Alex Johnson" />
+
+  <label for="age">Age:</label>
+  <input type="text" id="age" placeholder="e.g. 16" />
+
+  <label for="school">School/Organization Name:</label>
+  <input type="text" id="school" placeholder="e.g. ABC High School" />
+
+  <label for="doctor">Doctor's Name:</label>
+  <input type="text" id="doctor" placeholder="e.g. Dr. Emily Smith" />
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" />
+
+  <label for="days">Number of Sick Days:</label>
+  <input type="number" id="days" placeholder="e.g. 2" />
+
+  <label for="reason">Reason for Illness:</label>
+  <select id="reason" onchange="toggleCustomReason()">
+    <option value="Fever and Fatigue">Fever and Fatigue</option>
+    <option value="Viral Infection">Viral Infection</option>
+    <option value="Food Poisoning">Food Poisoning</option>
+    <option value="Covid-like Symptoms">Covid-like Symptoms</option>
+    <option value="Other">Other (Specify Below)</option>
+  </select>
+
+  <input type="text" id="customReason" placeholder="Enter custom reason here" />
+
+  <label for="type">Select Type:</label>
+  <select id="type">
+    <option value="certificate">Medical Certificate</option>
+    <option value="report">Medical Report</option>
+  </select>
+
+  <button onclick="generateReport()">Generate</button>
+  <button onclick="downloadPDF()">Download PDF</button>
+
+  <div class="output-box" id="output">Your medical certificate or report will appear here...</div>
+</div>
+
+<script>
+  function toggleCustomReason() {
+    const reasonSelect = document.getElementById("reason");
+    const customInput = document.getElementById("customReason");
+    customInput.style.display = reasonSelect.value === "Other" ? "block" : "none";
+  }
+
+  function generateReport() {
+    const name = document.getElementById('name').value;
+    const age = document.getElementById('age').value;
+    const school = document.getElementById('school').value;
+    const doctor = document.getElementById('doctor').value;
+    const date = document.getElementById('date').value;
+    const days = document.getElementById('days').value;
+    const reasonSelect = document.getElementById('reason');
+    const reason = reasonSelect.value === "Other" ? document.getElementById('customReason').value : reasonSelect.value;
+    const type = document.getElementById('type').value;
+    const output = document.getElementById('output');
+
+    if (!name || !age || !school || !doctor || !date || !days || !reason) {
+      output.innerText = "Please fill out all fields to generate the report or certificate.";
+      return;
+    }
+
+    let content = "";
+
+    if (type === "certificate") {
+      content = `TO WHOMSOEVER IT MAY CONCERN\n\nThis is to certify that ${name}, aged ${age}, was under my medical care for ${days} day(s) due to ${reason}.\n\nHe/She was unable to attend ${school} on ${date} and is now advised to rest and recover fully before resuming duties.\n\nThis certificate is issued upon the patient’s request.\n\nDoctor's Name: ${doctor}\nSignature: ______________________\nDate: ${date}`;
+    } else {
+      content = `PATIENT MEDICAL REPORT\n\nPatient Name: ${name}\nAge: ${age}\nOrganization: ${school}\nDate: ${date}\nSick Duration: ${days} day(s)\n\nDiagnosis: ${reason}\n\nPrescribed Medication:\n- Paracetamol 500mg\n- Vitamin C tablets\n- Proper hydration and rest\n\nAdvice:\n- Rest for ${days} day(s)\n- Avoid physical exertion\n- Follow up if symptoms persist\n\nDoctor: ${doctor}\nSignature: ______________________`;
+    }
+
+    output.innerText = content;
+  }
+
+  function downloadPDF() {
+    const content = document.getElementById("output").innerText;
+    if (!content || content.includes("fill out all fields")) {
+      alert("Please generate the report first.");
+      return;
+    }
+
+    const blob = new Blob([content], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Medical_Document.pdf";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>

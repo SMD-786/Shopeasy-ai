@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Someone Special</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Indie+Flower&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffe6e6, #fff0f5);
+      overflow-x: hidden;
+    }
+
+    .heart-bg {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: url('.jpg') center/cover no-repeat;
+      z-index: -1;
+      opacity: 0.2;
+    }
+
+    .slideshow {
+      width: 100%;
+      max-height: 300px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slideshow img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      animation: slide 15s infinite;
+    }
+
+    @keyframes slide {
+      0% {opacity: 1;}
+      33% {opacity: 0;}
+      66% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      color: #d6336c;
+    }
+
+    .quote {
+      font-size: 1.6rem;
+      margin-top: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeIn 1s forwards;
+      font-family: 'Indie Flower', cursive;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .final {
+      font-size: 2rem;
+      font-family: 'Great Vibes', cursive;
+      color: #ff2e63;
+    }
+
+    .button-container {
+      margin-top: 30px;
+      display: none;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 15px 25px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn.yes {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    .btn.no {
+      background-color: #ffc1cc;
+      color: #444;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+    }
+
+    .emoji {
+      font-size: 1.5rem;
+    }
+
+    img.quote-img {
+      width: 80px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="heart-bg"></div>
+
+  <!-- Slideshow -->
+  <div class="slideshow">
+    <img src="https://i.ibb.co/c6XkQZB/romantic1.jpg" alt="Love 1" />
+    <img src="https://i.ibb.co/WsWQzZC/romantic2.jpg" alt="Love 2" />
+    <img src="https://i.ibb.co/fM2ZRfs/romantic3.jpg" alt="Love 3" />
+  </div>
+
+  <!-- Quotes and Final Message -->
+  <div class="container">
+    <div id="quotes"></div>
+    <div class="button-container" id="buttons">
+      <button class="btn yes" onclick="respond('yes')">Yes</button>
+      <button class="btn no" onclick="respond('no')">No</button>
+    </div>
+  </div>
+
+  <script>
+    const quotes = [
+      "Hey... तुम बहुत प्यारी हो! (You're so sweet!) 🍬",
+      "जब भी तुम मुस्कुराती हो, मेरी दुनिया रोशन हो जाती है! 🌟",
+      "तुम्हारी हर बात मेरे दिल को छू जाती है! ❤️",
+      "मुझे तुम्हारे साथ रहना अच्छा लगता है... थोड़ी छेड़खानी भी! 😉",
+      "तुमसे मिलने के बाद सब कुछ और भी सुंदर लगने लगा! 🌸",
+      "मैंने कभी नहीं सोचा था कि किसी के लिए इतना फील कर सकता हूँ! 😍",
+      "तो अब सवाल ये है... ❤️ क्या तुम मेरी गर्लफ्रेंड बनोगी?"
+    ];
+
+    const images = [
+      "https://i.ibb.co/JQcNwFF/emoji-heart.png",
+      "https://i.ibb.co/hs6Kkkj/love-smile.png",
+      "https://i.ibb.co/Kq4yXk1/cute-love.png",
+      "https://i.ibb.co/gjZ1Q1W/blush-heart.png"
+    ];
+
+    const container = document.getElementById("quotes");
+    const buttonContainer = document.getElementById("buttons");
+
+    let index = 0;
+
+    function showNextQuote() {
+      if (index < quotes.length) {
+        const quoteEl = document.createElement("div");
+        quoteEl.className = "quote";
+        quoteEl.innerHTML = `<span class="emoji">❤️</span> ${quotes[index]}`;
+        
+        if (index < images.length) {
+          const img = document.createElement("img");
+          img.src = images[index];
+          img.className = "quote-img";
+          quoteEl.appendChild(img);
+        }
+
+        container.appendChild(quoteEl);
+        index++;
+        setTimeout(showNextQuote, 3000);
+      } else {
+        const final = document.createElement("div");
+        final.className = "quote final";
+        final.innerText = "Will you be my girlfriend? (क्या तुम मेरी गर्लफ्रेंड बनोगी?) ❤️";
+        container.appendChild(final);
+        setTimeout(() => {
+          buttonContainer.style.display = "flex";
+        }, 1000);
+      }
+    }
+
+    function respond(answer) {
+      const response = document.createElement("div");
+      response.className = "quote";
+      response.style.fontSize = "2rem";
+      if (answer === "yes") {
+        response.innerHTML = "Yay!! तुमने मेरा दिन बना दिया! 🥰";
+      } else {
+        response.innerHTML = "कोई बात नहीं... फिर भी तुम्हारे लिए दिल से प्यार रहेगा! 💔";
+      }
+      container.appendChild(response);
+      buttonContainer.style.display = "none";
+    }
+
+    window.onload = showNextQuote;
+  </script>
+
+</body>
+</html>

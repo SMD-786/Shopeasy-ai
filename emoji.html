@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Sticker Generator</title>
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --background: #F7FFF7;
+            --text: #2F3542;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .generator-box {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        #textInput {
+            width: 100%;
+            min-height: 150px;
+            padding: 1.5rem;
+            border: 3px solid var(--primary);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        #textInput:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.2);
+        }
+
+        .preview-box {
+            background: #fff;
+            border: 3px dashed var(--secondary);
+            border-radius: 15px;
+            padding: 2rem;
+            min-height: 150px;
+            text-align: center;
+            font-size: 2rem;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .download-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .preview-box {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">✨ Emoji Sticker Maker</h1>
+            <p>Transform text into emoji stickers instantly!</p>
+        </div>
+
+        <div class="generator-box">
+            <div class="input-group">
+                <textarea 
+                    id="textInput"
+                    placeholder="Type your text here..."
+                    rows="4"
+                ></textarea>
+            </div>
+
+            <div class="preview-box" id="preview">
+                Your emoji stickers will appear here
+            </div>
+
+            <div class="button-group">
+                <button class="action-btn copy-btn" id="copyBtn">
+                    📋 Copy Stickers
+                </button>
+                <button class="action-btn download-btn" id="downloadBtn">
+                    ⬇️ Download Stickers
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Emoji mapping dictionary
+        const emojiMap = {
+            love: '❤️',
+            happy: '😀',
+            sad: '😢',
+            cool: '😎',
+            star: '⭐',
+            fire: '🔥',
+            thumbsup: '👍',
+            heart: '💖',
+            laugh: '😂',
+            wow: '😮',
+            flower: '🌸',
+            sun: '☀️',
+            moon: '🌙',
+            cat: '🐱',
+            dog: '🐶',
+            car: '🚗',
+            plane: '✈️',
+            music: '🎵',
+            art: '🎨',
+            // Add more mappings as needed
+        };
+
+        // DOM Elements
+        const textInput = document.getElementById('textInput');
+        const preview = document.getElementById('preview');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Generate emoji stickers
+        function generateStickers(text) {
+            return text.split(' ').map(word => {
+                const emoji = emojiMap[word.toLowerCase()];
+                return emoji ? emoji.repeat(3) + ' ' : word + ' ';
+            }).join(' ');
+        }
+
+        // Update preview in real-time
+        textInput.addEventListener('input', () => {
+            const text = textInput.value.trim();
+            preview.textContent = text ? generateStickers(text) : 'Your emoji stickers will appear here';
+        });
+
+        // Copy to clipboard
+        copyBtn.addEventListener('click', () => {
+            const text = preview.textContent;
+            if (text && text !== 'Your emoji stickers will appear here') {
+                navigator.clipboard.writeText(text)
+                    .then(() => alert('Copied to clipboard!'))
+                    .catch(err => console.error('Copy failed:', err));
+            }
+        });
+
+        // Download stickers
+        downloadBtn.addEventListener('click', () => {
+            const text = preview.textContent;
+            if (text && text !== 'Your emoji stickers will appear here') {
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'emoji-stickers.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        });
+    </script>
+</body>
+</html>

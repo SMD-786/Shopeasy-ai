@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>AI Video Compressor - Reduce Video Size Without Quality Loss</title>
+    <meta name="description" content="Compress videos using AI-powered optimization for web, mobile, and social media. Reduce video file size while maintaining quality. Supports MP4, MOV, AVI, and more.">
+    <meta name="keywords" content="video compressor, compress video, reduce video size, AI video optimization, online video converter">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1d4ed8;
+            --accent: #60a5fa;
+            --background: #f8fafc;
+            --text: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .upload-section {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--primary);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .drop-zone:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .compression-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .option-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .ad-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+          /* Add to existing styles */
+        .preview-section {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        #videoPreview {
+            max-width: 300px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quality-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quality-option {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quality-option.active {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .result-card {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Ad -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <main>
+            <h1>AI-Powered Video Compressor</h1>
+            <p>Reduce video file size with smart compression technology</p>
+
+            <div class="upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <h2>Drop Video File Here</h2>
+                    <p>or click to upload (Max 2GB)</p>
+                    <input type="file" id="fileInput" hidden accept="video/*">
+                </div>
+
+                <div class="compression-options">
+                    <div class="option-card" data-preset="social">
+                        <h3>Social Media</h3>
+                        <p>Optimized for Instagram, Facebook</p>
+                    </div>
+                    <div class="option-card" data-preset="web">
+                        <h3>Web Optimization</h3>
+                        <p>Perfect for websites & blogs</p>
+                    </div>
+                    <div class="option-card" data-preset="mobile">
+                        <h3>Mobile Friendly</h3>
+                        <p>Reduced size for messaging</p>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+
+                <button id="compressBtn" disabled>Compress Video</button>
+            </div>
+        </main>
+
+        <!-- Sidebar Ad -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+        
+        <main>
+            <div class="upload-section">
+                <!-- Existing drop zone -->
+                
+                <div class="preview-section">
+                    <video id="videoPreview" controls></video>
+                </div>
+
+                <div class="quality-selector" id="qualitySelector">
+                    <div class="quality-option" data-quality="144">Low Quality (144p)</div>
+                    <div class="quality-option" data-quality="480">Medium Quality (480p)</div>
+                    <div class="quality-option" data-quality="720">High Quality (720p)</div>
+                    <div class="quality-option" data-quality="original">Original Quality</div>
+                </div>
+
+                <div class="result-card" id="resultCard">
+                    <h3>Compression Complete!</h3>
+                    <p>Original size: <span id="originalSize"></span></p>
+                    <p>Compressed size: <span id="compressedSize"></span></p>
+                    <button id="downloadBtn">Download Video</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // AI Compression Logic
+        class VideoCompressor {
+            constructor() {
+                this.videoFile = null;
+                this.preset = 'web';
+            }
+
+            async compress() {
+                const formData = new FormData();
+                formData.append('video', this.videoFile);
+                formData.append('preset', this.preset);
+
+                try {
+                    const response = await fetch('/compress', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    const result = await response.json();
+                    if (result.error) throw new Error(result.error);
+
+                    this.downloadFile(result.downloadUrl);
+                } catch (error) {
+                    console.error('Compression error:', error);
+                }
+            }
+
+            downloadFile(url) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `compressed_${this.videoFile.name}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
+        // UI Interactions
+        const compressor = new VideoCompressor();
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const compressBtn = document.getElementById('compressBtn');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropZone.style.background = 'rgba(37, 99, 235, 0.1)';
+        });
+
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) handleFile(file);
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('video/')) {
+                alert('Please upload a video file');
+                return;
+            }
+
+            compressor.videoFile = file;
+            compressBtn.disabled = false;
+            updateProgress(0);
+        }
+
+        function updateProgress(percentage) {
+            document.getElementById('progress').style.width = `${percentage}%`;
+        }
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "AI Video Compressor",
+        "applicationCategory": "Multimedia",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD"
+        }
+    }
+    
+    class VideoCompressor {
+            constructor() {
+                this.videoFile = null;
+                this.preset = 'web';
+                this.quality = '720';
+            }
+
+            async generateThumbnail(file) {
+                const video = document.getElementById('videoPreview');
+                video.src = URL.createObjectURL(file);
+                video.style.display = 'block';
+                
+                return new Promise((resolve) => {
+                    video.addEventListener('loadeddata', () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        canvas.toBlob(resolve, 'image/jpeg');
+                    });
+                });
+            }
+
+            async compress() {
+                const formData = new FormData();
+                formData.append('video', this.videoFile);
+                formData.append('quality', this.quality);
+                formData.append('thumbnail', await this.generateThumbnail(this.videoFile));
+
+                try {
+                    const response = await fetch('/compress', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    if (result.error) throw new Error(result.error);
+
+                    this.showResult(result);
+                } catch (error) {
+                    this.showError(error.message);
+                }
+            }
+
+            showResult(result) {
+                document.getElementById('originalSize').textContent = 
+                    this.formatSize(result.originalSize);
+                document.getElementById('compressedSize').textContent = 
+                    this.formatSize(result.compressedSize);
+                document.getElementById('resultCard').style.display = 'block';
+                
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.onclick = () => {
+                    this.downloadFile(result.downloadUrl);
+                };
+            }
+
+            formatSize(bytes) {
+                return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+            }
+        }
+
+        // UI Interactions
+        const compressor = new VideoCompressor();
+        
+        document.querySelectorAll('.quality-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.quality-option').forEach(opt => 
+                    opt.classList.remove('active'));
+                this.classList.add('active');
+                compressor.quality = this.dataset.quality;
+            });
+        });
+
+        // Modified handleFile function
+        async function handleFile(file) {
+            if (!file.type.startsWith('video/')) {
+                showError('Please upload a video file');
+                return;
+            }
+
+            compressor.videoFile = file;
+            compressBtn.disabled = false;
+            document.getElementById('qualitySelector').style.display = 'grid';
+            updateProgress(0);
+        }
+
+        function showError(message) {
+            // Implement error display
+        }
+    </script>
+</body>
+</html>

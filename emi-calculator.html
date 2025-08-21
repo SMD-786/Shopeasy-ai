@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline EMI Calculator</title>
+    <script src="chart.js"></script>
+  
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --background: #ffffff;
+            --text: #2b2d42;
+            --success: #4cc9f0;
+            --error: #ef233c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: var(--text);
+            line-height: 1.6;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .calculator {
+            background: var(--background);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .range-input {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .number-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .number-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .unit-display {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: right;
+        }
+
+        .result-card {
+            background: var(--background);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .result-label {
+            color: #6c757d;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .chart-container {
+            height: 300px;
+            margin: 2rem 0;
+        }
+
+        .button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0.5rem;
+            }
+            
+            .calculator {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div class="header">
+                <h1>EMI Calculator</h1>
+                <p>Calculate your monthly loan payments</p>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="amount">
+                    Loan Amount
+                    <span id="amountValue">₹10,00,000</span>
+                </label>
+                <input type="range" class="range-input" id="amount" min="10000" max="5000000" value="1000000">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="interest">
+                    Interest Rate
+                    <span id="interestValue">8.5%</span>
+                </label>
+                <input type="range" class="range-input" id="interest" min="1" max="30" step="0.1" value="8.5">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="tenure">
+                    Loan Tenure
+                    <span id="tenureValue">20 Years</span>
+                </label>
+                <input type="range" class="range-input" id="tenure" min="1" max="30" value="20">
+            </div>
+
+            <button class="button" id="calculate">Calculate EMI</button>
+
+            <div class="result-card" id="results">
+                <div class="result-row">
+                    <span class="result-label">Monthly EMI</span>
+                    <span class="result-value" id="emi">₹0</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Total Interest</span>
+                    <span class="result-value" id="totalInterest">₹0</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Total Payment</span>
+                    <span class="result-value" id="totalPayment">₹0</span>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Anchor Ad -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+        crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+     data-ad-slot="2233445566"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    <script>
+        // Offline-compatible Chart.js (should be saved locally for true offline use)
+        // Create chart.js file in your project and include it locally
+        // This is a simplified version for demonstration
+        class SimpleChart {
+            constructor(ctx) {
+                this.ctx = ctx;
+            }
+            pie(data) {
+                // Simplified pie chart rendering logic
+                // Implement actual canvas drawing for full functionality
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const amountSlider = document.getElementById('amount');
+            const amountValue = document.getElementById('amountValue');
+            const interestSlider = document.getElementById('interest');
+            const interestValue = document.getElementById('interestValue');
+            const tenureSlider = document.getElementById('tenure');
+            const tenureValue = document.getElementById('tenureValue');
+            const calculateBtn = document.getElementById('calculate');
+            const emiDisplay = document.getElementById('emi');
+            const totalInterestDisplay = document.getElementById('totalInterest');
+            const totalPaymentDisplay = document.getElementById('totalPayment');
+            const chartCtx = document.getElementById('chart').getContext('2d');
+
+            // Formatters
+            const formatter = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            });
+
+            // Initialize Chart
+            let chart;
+            function initChart(principal, interest) {
+                if(chart) chart.destroy();
+                chart = new SimpleChart(chartCtx).pie({
+                    labels: ['Principal', 'Interest'],
+                    data: [principal, interest],
+                    colors: ['#4361ee', '#4895ef']
+                });
+            }
+
+            // Input Handlers
+            function updateDisplay() {
+                amountValue.textContent = formatter.format(amountSlider.value);
+                interestValue.textContent = `${parseFloat(interestSlider.value).toFixed(1)}%`;
+                tenureValue.textContent = `${tenureSlider.value} Years`;
+            }
+
+            [amountSlider, interestSlider, tenureSlider].forEach(slider => {
+                slider.addEventListener('input', updateDisplay);
+            });
+
+            // EMI Calculation
+            function calculateEMI() {
+                const principal = parseFloat(amountSlider.value);
+                const rate = parseFloat(interestSlider.value) / 100 / 12;
+                const months = parseFloat(tenureSlider.value) * 12;
+
+                const emi = principal * rate * Math.pow(1 + rate, months) / 
+                           (Math.pow(1 + rate, months) - 1);
+                const totalPayment = emi * months;
+                const totalInterest = totalPayment - principal;
+
+                return { emi, totalPayment, totalInterest };
+            }
+
+            // Display Results
+            function displayResults() {
+                const { emi, totalPayment, totalInterest } = calculateEMI();
+                emiDisplay.textContent = formatter.format(emi);
+                totalInterestDisplay.textContent = formatter.format(totalInterest);
+                totalPaymentDisplay.textContent = formatter.format(totalPayment);
+                initChart(amountSlider.value, totalInterest);
+            }
+
+            // Event Listeners
+            calculateBtn.addEventListener('click', displayResults);
+            document.addEventListener('input', displayResults);
+
+            // Initial Calculation
+            updateDisplay();
+            displayResults();
+        });
+    </script>
+</body>
+</html>

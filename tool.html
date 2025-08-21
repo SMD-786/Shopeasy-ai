@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport">
+  <title>ShopEasy AI Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f5f7fb;
+    }
+
+       :root {
+      --bg-color: #ffffff;
+      --text-color: #111;
+      --primary-color: #ff9900;
+      --card-bg: #ffffff;
+      --header-bg: #1e1e2f;
+      --foot-bg:  #2e2e4d;
+
+      --color-accent: #ffcc00;
+    
+    }
+
+    body.dark {
+      --bg-color: #121212;
+      --text-color: #f1f1f1;
+      --card-bg: #000;
+      --header-bg: #000;
+      --foot-bg: #121212;
+    }
+    
+    
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+            bg
+        }  
+       
+       body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+
+  
+ .navbar {  
+        display: flex;  
+        justify-content: space-between;  
+        align-items: center;  
+        background-color: var(--header-bg);  
+        padding: 20px 20px;  
+        color: white;  
+        border-bottom: 2px solid #101abdc9;
+          
+    }  
+    
+
+    .logo {  
+        font-size: 24px;  
+        font-weight: bold;  
+    } 
+    
+       /* Side Menu */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: var(--header-bg);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  padding-top: 60px;
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+    .side-menu h3 {
+      color: var(--color-accent);
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.3em;
+    }
+
+    .side-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 25px;
+      color: var(--color-fg);
+      text-decoration: none;
+      font-size: 1.1em;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.3s ease;
+    }
+
+    .side-menu a:hover {
+      background-color: var(--color-accent);
+      color: var(--color-primary);
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    } 
+
+    .search-box {  
+        flex: 1;  
+        margin: 0 20px;  
+        position: relative;  
+    }  
+
+    .search-box input {  
+        width: 100%;  
+        padding: 8px;  
+        border: none;  
+        border-radius: 5px;  
+    }  
+
+    .search-results {  
+        position: absolute;  
+        top: 35px;  
+        left: 0;  
+        width: 100%;  
+        background: white;  
+        color: black;  
+        display: none;  
+        border-radius: 5px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+        margin: 0 5px 0 5px;  
+    }  
+
+    .search-results div {  
+        padding: 10px;  
+        cursor: pointer;  
+    }  
+
+    .search-results div:hover {  
+        background-color: #f2f2f2;  
+    }  
+
+    .nav-links {  
+        list-style: none;  
+        display: flex;
+        padding:2px;  
+    }  
+
+    .nav-links li {  
+        margin:2px 10px;  
+    }  
+
+    .nav-links a {  
+        color: white;  
+        text-decoration: none;  
+        
+        transition: 0.3s;  
+    }  
+
+    .nav-links a:hover {  
+        color:var(--primary-color);
+        border-radius: 5px; 
+        link-style:none; 
+        padding:0;
+        margin:0;
+    }  
+
+    .cart {  
+        margin-left: 20px;  
+        cursor: pointer;  
+    }  
+
+    .cart span {  
+        background: red;  
+        color: white;  
+        padding: 3px 7px;  
+        border-radius: 50%;  
+        font-size: 14px;  
+        margin-left: 5px;  
+    }  
+
+    .account {  
+        margin-left: 20px;  
+        margin-right:10px;  
+        cursor: pointer;  
+        position: relative;  
+    }  
+
+    .account-menu {  
+        display: none;  
+        position: absolute;  
+        top: 35px;  
+        right: 0;  
+        background: white;  
+        color: black;  
+        padding: 10px;  
+        border-radius: 5px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+    }  
+
+    .account-menu a {  
+        display: block;  
+        padding: 8px 12px;  
+        text-decoration: none;  
+        color: black;  
+    }  
+
+    .account-menu a:hover {  
+        background: #f2f2f2; 
+        color:white; 
+    }  
+
+    .menu-icon {  
+        display: none;  
+        font-size: 24px;  
+        cursor: pointer;  
+    }  
+
+    @media (max-width: 768px) {  
+        .nav-links {  
+            display: none;  
+            flex-direction: column;  
+            position: absolute;  
+            top: 60px;  
+            right: 10px;  
+            background-color: #333;  
+            width: 200px;  
+            text-align: center;  
+            border-radius: 5px;  
+            padding:10px;
+            margin:5pxl
+        }  
+        .nav-links li{
+            padding:10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            margin: 2px;
+            font-weight: bold;
+        }
+        .nav-links li:hover {
+        padding:10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            margin: 2px;
+            font-weight: bold;
+            background-color: white;
+            color: #333;
+            box-shadow: 10px black;
+            
+            
+        }
+        .nav-links a{
+            padding: 0px 60px 0px 60px;
+            width: 100%;
+        }
+        
+
+        .nav-links.active {  
+            display: flex;  
+        }  
+
+        .menu-icon {  
+            display: block;  
+        }  
+    } 
+    
+    
+
+
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .hero h2 {
+      color: var(--text-color);
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      color: var(--text-color);
+      font-size: 1rem;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+   
+
+    @media(max-width: 600px) {
+      .hero h2 {
+        font-size: 1.5rem;
+      }
+    }
+    a{
+    text-decoration: none;
+    }
+    
+    .toggle-darkmode {
+      position: absolute;
+      top: 35px;
+      left: 20px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      border: 2px solid var(--text-color);
+      padding: 5px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top:4em;
+    }
+    
+    .tool-card {
+  background: var(--bg-color);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px var(--text-color);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.tool-card img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+.tool-card h3 {
+  margin-bottom: 0.5rem;
+  color: #2563eb;
+}
+.tool-card p {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+.tool-card:hover {
+  transform: translateY(-5px);
+}
+.tool-btn {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  text-decoration: none;
+}
+.tool-btn:hover {
+  background-color: #1d4ed8;
+}
+
+
+
+  /* ========== FOOTER SECTION ========== */
+            .footer {
+            background: var(--foot-bg);
+            color: white;
+            padding-top: 40px;
+            margin-top: 50px;
+            text-align:center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            width: 250px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ff9900;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ff9900;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding: 30px 20px 30px 20px;
+            background: var(--header-bg);
+            font-size: 14px;
+            color: white;
+            
+            
+        } 
+
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .service-list {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+
+            .footer-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+        
+  </style>
+</head>
+<body>
+<!--   Header -->
+    <header>
+     <nav class="navbar">  
+    <div class="logo">ShopEasy</div>  
+    <div class="search-box">  
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">  
+        <div class="search-results" id="searchResults"></div>  
+    </div>  
+  <div class="side-menu" id="sideMenu">
+    <h3><i class="fas fa-bars"></i> Shopeasy Menu</h3>
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="#"><i class="fas fa-store"></i> Shop</a>
+    <a href="#"><i class="fas fa-headset"></i> Customer Care</a>
+    <a href="tool.html"><i class="fas fa-robot"></i> AI Tools</a>
+    <a href="minigame.html"><i class="fas fa-gamepad"></i> Games</a>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+   
+     
+    <div class="cart" onclick="viewCart()">🛒 <span id="cartCount">0</span></div> 
+     
+     
+     
+     
+    <div class="account" onclick="toggleAccountMenu()">👤  
+        <div class="account-menu" id="accountMenu">  
+            <a href="checkout.html">Profile</a>  
+            <a href="#">Orders</a>  
+            <a href="#">Logout</a>  
+        </div>  
+    </div>  
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>  
+</nav>  
+  
+  </header>
+
+<br><br>
+
+<button class="toggle-darkmode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  <section class="hero">
+      <h1>ShopEasy AI Tools</h1>
+    <h2>Smart Tools for Everyday Tasks</h2>
+    <p>Boost your productivity with AI-powered tools integrated into ShopEasy</p>
+  </section>
+
+  <section class="tools-grid">
+       <a href="img-compresor.html"> 
+    <div class="tool-card">
+   <img src="https://img.icons8.com/color/96/compress.png" alt="Image Compressor"/>
+      <h3>Image Compressor</h3>
+      <p>Reduce image size while keeping quality intact.</p>
+    </div></a>
+<a href="pdf-converter.html">
+    <div class="tool-card">
+      <img src="https://img.icons8.com/color/96/pdf.png" alt="PDF Converter"/>
+      <h3>PDF Converter</h3>
+      <p>Convert PDFs to Word, Excel or images in seconds.</p>
+    </div>
+</a>
+
+<a href="emi-calculator.html">
+    <div class="tool-card">
+      <img src="https://img.icons8.com/color/96/calculator.png" alt="EMI Calculator"/>
+      <h3>EMI Calculator</h3>
+      <p>Calculate monthly installments quickly and easily.</p>
+    </div></a>
+<a href="video-downloader.html">
+    <div class="tool-card">
+      <img src="https://img.icons8.com/color/96/youtube-play.png" alt="Video Downloader"/>
+      <h3>Video Downloader</h3>
+      <p>Download videos from YouTube, Instagram, and more.</p>
+    </div></a>
+
+    <div class="tool-card">
+      <img src="https://img.icons8.com/ios-filled/50/resolution.png" alt="Image Resizer"/>
+      <h3>Image Resizer</h3>
+      <p>Resize images to fit any platform or project.</p>
+    </div>
+
+    <div class="tool-card">
+      <img src="https://img.icons8.com/ios-filled/50/video.png" alt="Video Compressor"/>
+      <h3>Video Compressor</h3>
+      <p>Compress video files for faster uploads and sharing.</p>
+    </div>
+    <a href="medical-genrator.html">
+    <div class="tool-card">
+  <img src="https://img.icons8.com/color/96/medical-doctor.png" alt="Medical Report AI Tool" />
+  <h3>Medical Report Generator</h3>
+  <p>Create medical certificates & reports instantly for school, college, or work.</p>
+ 
+</div>
+</a>
+
+
+  <!-- Resume Maker Tool Card -->
+  <a href="resume-generator.html">
+  <div class="tool-card">
+    <img src="https://cdn-icons-png.flaticon.com/512/4761/4761023.png" alt="Resume Maker">
+    <h3>AI Resume Maker</h3>
+    <p style="color: #4b5563;">Create a professional resume or biodata easily in PDF format with your photo.</p>
+ 
+  </div></a>
+
+  <!-- Image Resizer Tool Card -->
+  <a href="img-resizer.html">
+  <div class="tool-card">
+    <img src="https://cdn-icons-png.flaticon.com/512/3879/3879827.png" alt="Image Resizer">
+    <h3>Image Resizer</h3>
+    <p>Quickly resize your images to any dimensions while maintaining quality.</p>
+    
+  </div></a>
+
+    
+   
+    <!-- AI Notepad Tool -->
+    
+    <a href="notepad.html">
+    <div class="tool-card">
+        <img src="https://img.icons8.com/?size=100&id=82ixf4KHn6za&format=png&color=000000" alt=""></img>
+      <h3>AI Notepad + Live Coding</h3>
+      <p>Write, edit, and save text like a PC notepad with live HTML/CSS/JS preview.</p>
+   
+    </div>
+</a>
+    <!-- PDF to Text Tool -->
+    <a href="pdf2text.html">
+    <div class="tool-card">
+        <img src="https://img.icons8.com/?size=100&id=115645&format=png&color=000000" alt=""></img>
+      <h3>PDF to Text Converter</h3>
+      <p style="font-size: 0.95rem; color: #4b5563;">Extract text content from PDF files quickly and easily.</p>
+      
+    </div></a>
+
+    <!-- Letter & Application Tool -->
+   <a href="Letter.html"> <div class="tool-card">
+       <img src="https://iili.io/3ca1lTX.md.png" alt="3ca1lTX.md.png" border="0">
+      <h3>Letter & Application Writer</h3>
+      <p>Generate formal letters and applications with templates and PDF support.</p>
+      
+    </div></a>
+
+  
+</section>
+    
+  </section>
+
+
+
+<script>
+    
+    let cartCount = 0;  
+    let products = ["Laptop", "Smartphone", "Headphones", "Camera", "Smartwatch", "Shoes", "T-shirt"];  
+
+    function toggleMenu() {  
+        document.querySelector('.nav-links').classList.toggle('active');  
+    }  
+
+    function searchProducts() {  
+        let input = document.getElementById('searchInput').value.toLowerCase();  
+        let results = document.getElementById('searchResults');  
+        results.innerHTML = "";  
+        if (input) {  
+            let filteredProducts = products.filter(product => product.toLowerCase().includes(input));  
+            filteredProducts.forEach(product => {  
+                let div = document.createElement("div");  
+                div.innerHTML = product;  
+                div.onclick = function() {  
+                    alert("You searched for: " + product);  
+                    results.style.display = "none";  
+                };  
+                results.appendChild(div);  
+            });  
+            results.style.display = "block";  
+        } else {  
+            results.style.display = "none";  
+        }  
+    }  
+
+    function addToCart() {  
+        cartCount++;  
+        document.getElementById("cartCount").innerText = cartCount;  
+        alert("Item added to cart!");  
+    }  
+
+    function viewCart() {  
+        alert("You have " + cartCount + " items in your cart.");  
+    }  
+
+    function toggleAccountMenu() {  
+        let menu = document.getElementById('accountMenu');  
+        menu.style.display = menu.style.display === "block" ? "none" : "block";  
+    }  
+
+    window.onclick = function(event) {  
+        if (!event.target.matches('.account')) {  
+            document.getElementById('accountMenu').style.display = "none";  
+        }  
+    };
+    
+    <!-- dark mode  -->
+    
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+    
+    function toggleMenu() {
+      const menu = document.getElementById('sideMenu');
+      const overlay = document.getElementById('overlay');
+      menu.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+    
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Load saved theme from localStorage
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    })();
+    
+      // Close menu on large screens if already open (optional safety)
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768 && !menu.classList.contains('open')) {
+      overlay.classList.remove('active');
+    }
+  });
+  
+</script>
+
+
+  <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">@copyright 2025</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Term & Condition</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 [Your Brand Name]. All Rights Reserved.
+        </div>
+    </footer>
+    
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Smart QR Code Generator with File Upload"/>
+  <title>Smart QR Code Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background: #388e3c;
+    }
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 10px;
+    }
+    .action-buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .action-buttons a {
+      display: inline-block;
+      padding: 12px 20px;
+      margin: 10px 5px;
+      background: #2196F3;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: 0.3s ease;
+    }
+    .action-buttons a:hover {
+      background: #1976D2;
+    }
+    .status {
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Smart QR Code Generator AI</h2>
+  <textarea id="qrText" rows="3" placeholder="Enter a link, text or wait for file upload..."></textarea>
+  <input type="file" id="qrFile" onchange="handleFileUpload()" accept="image/*,video/*,application/pdf"/>
+  <div class="status" id="uploadStatus">Upload a file or paste a link to generate QR</div>
+  <button onclick="generateQR()">Generate QR Code</button>
+
+  <canvas id="qrCanvas"></canvas>
+  <button onclick="downloadQR()">Download QR Code</button>
+
+  <button style="margin-top:20px;background:#444;" onclick="simulateQRScan()">Simulate QR Scan</button>
+
+  <div class="action-buttons" id="qrActions"></div>
+</div>
+
+<script>
+  let currentQRContent = "";
+
+  function generateQR() {
+    const canvas = document.getElementById("qrCanvas");
+    const text = document.getElementById("qrText").value.trim();
+    const actionsDiv = document.getElementById("qrActions");
+    actionsDiv.innerHTML = "";
+
+    if (!text) {
+      alert("Please enter text or wait for file upload.");
+      return;
+    }
+
+    currentQRContent = text;
+
+    QRCode.toCanvas(canvas, text, { width: 256 }, function (error) {
+      if (error) console.error(error);
+    });
+  }
+
+  function handleFileUpload() {
+    const fileInput = document.getElementById("qrFile");
+    const file = fileInput.files[0];
+    const status = document.getElementById("uploadStatus");
+    const textArea = document.getElementById("qrText");
+
+    if (file) {
+      status.innerText = "Uploading file to server...";
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      fetch("https://file.io", {
+        method: "POST",
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          textArea.value = data.link;
+          currentQRContent = data.link;
+          status.innerText = "File uploaded and link generated.";
+        } else {
+          status.innerText = "Upload failed. Try again.";
+        }
+      })
+      .catch(() => {
+        status.innerText = "Error uploading file.";
+      });
+    }
+  }
+
+  function downloadQR() {
+    const canvas = document.getElementById("qrCanvas");
+    const link = document.createElement("a");
+    link.download = "qr-code.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  }
+
+  function simulateQRScan() {
+    const content = currentQRContent;
+    const actionsDiv = document.getElementById("qrActions");
+    actionsDiv.innerHTML = "";
+
+    if (!content) {
+      alert("Generate a QR code first!");
+      return;
+    }
+
+    if (content.startsWith("http") && /\.(jpg|png|gif|jpeg|pdf|mp4|webm)$/i.test(content)) {
+      actionsDiv.innerHTML = `<a href="${content}" download>Download File</a>`;
+    } else if (content.startsWith("http")) {
+      actionsDiv.innerHTML = `<a href="${content}" target="_blank">Visit Link</a>`;
+    } else {
+      actionsDiv.innerHTML = `<p>No specific action found for this content.</p>`;
+    }
+  }
+</script>
+
+</body>
+</html>

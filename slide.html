@@ -1,0 +1,244 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport">  
+    <title>E-commerce Menu Bar</title>  
+    <style>  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  body {  
+        font-family: Arial, sans-serif;  
+    }  
+
+    .navbar {  
+        display: flex;  
+        justify-content: space-between;  
+        align-items: center;  
+        background-color: #333;  
+        padding: 10px 20px;  
+        color: white;  
+          
+    }  
+
+    .logo {  
+        font-size: 24px;  
+        font-weight: bold;  
+    }  
+
+    .search-box {  
+        flex: 1;  
+        margin: 0 20px;  
+        position: relative;  
+    }  
+
+    .search-box input {  
+        width: 100%;  
+        padding: 8px;  
+        border: none;  
+        border-radius: 5px;  
+    }  
+
+    .search-results {  
+        position: absolute;  
+        top: 35px;  
+        left: 0;  
+        width: 100%;  
+        background: white;  
+        color: black;  
+        display: none;  
+        border-radius: 5px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+        margin: 0 5px 0 5px;  
+    }  
+
+    .search-results div {  
+        padding: 10px;  
+        cursor: pointer;  
+    }  
+
+    .search-results div:hover {  
+        background-color: #f2f2f2;  
+    }  
+
+    .nav-links {  
+        list-style: none;  
+        display: flex;  
+    }  
+
+    .nav-links li {  
+        margin: 0 10px;  
+    }  
+
+    .nav-links a {  
+        color: white;  
+        text-decoration: none;  
+        padding: 8px 12px;  
+        transition: 0.3s;  
+    }  
+
+    .nav-links a:hover {  
+        background-color: #555;  
+        border-radius: 5px;  
+    }  
+
+    .cart {  
+        margin-left: 20px;  
+        cursor: pointer;  
+    }  
+
+    .cart span {  
+        background: red;  
+        color: white;  
+        padding: 3px 7px;  
+        border-radius: 50%;  
+        font-size: 14px;  
+        margin-left: 5px;  
+    }  
+
+    .account {  
+        margin-left: 20px;  
+        margin-right:10px;  
+        cursor: pointer;  
+        position: relative;  
+    }  
+
+    .account-menu {  
+        display: none;  
+        position: absolute;  
+        top: 35px;  
+        right: 0;  
+        background: white;  
+        color: black;  
+        padding: 10px;  
+        border-radius: 5px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+    }  
+
+    .account-menu a {  
+        display: block;  
+        padding: 8px 12px;  
+        text-decoration: none;  
+        color: black;  
+    }  
+
+    .account-menu a:hover {  
+        background: #f2f2f2;  
+    }  
+
+    .menu-icon {  
+        display: none;  
+        font-size: 24px;  
+        cursor: pointer;  
+    }  
+
+    @media (max-width: 768px) {  
+        .nav-links {  
+            display: none;  
+            flex-direction: column;  
+            position: absolute;  
+            top: 60px;  
+            right: 20px;  
+            background-color: #333;  
+            width: 200px;  
+            text-align: center;  
+            border-radius: 5px;  
+        }  
+
+        .nav-links.active {  
+            display: flex;  
+        }  
+
+        .menu-icon {  
+            display: block;  
+        }  
+    }  
+</style>
+
+</head>  
+<body> 
+    <header>
+     <nav class="navbar">  
+    <div class="logo">ShopEasy</div>  
+    <div class="search-box">  
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">  
+        <div class="search-results" id="searchResults"></div>  
+    </div>  
+    <ul class="nav-links">  
+        <li><a href="#">Home</a></li>  
+        <li><a href="#">Shop</a></li>  
+        <li><a href="#">Categories</a></li>  
+        <li><a href="#">Deals</a></li>  
+        <li><a href="#">Contact</a></li>  
+    </ul>  
+    <div class="cart" onclick="viewCart()">🛒 <span id="cartCount">0</span></div>  
+    <div class="account" onclick="toggleAccountMenu()">👤  
+        <div class="account-menu" id="accountMenu">  
+            <a href="#">Profile</a>  
+            <a href="#">Orders</a>  
+            <a href="#">Logout</a>  
+        </div>  
+    </div>  
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>  
+</nav>  
+ </header> 
+
+  
+  
+  
+
+<script>  
+    let cartCount = 0;  
+    let products = ["Laptop", "Smartphone", "Headphones", "Camera", "Smartwatch", "Shoes", "T-shirt"];  
+
+    function toggleMenu() {  
+        document.querySelector('.nav-links').classList.toggle('active');  
+    }  
+
+    function searchProducts() {  
+        let input = document.getElementById('searchInput').value.toLowerCase();  
+        let results = document.getElementById('searchResults');  
+        results.innerHTML = "";  
+        if (input) {  
+            let filteredProducts = products.filter(product => product.toLowerCase().includes(input));  
+            filteredProducts.forEach(product => {  
+                let div = document.createElement("div");  
+                div.innerHTML = product;  
+                div.onclick = function() {  
+                    alert("You searched for: " + product);  
+                    results.style.display = "none";  
+                };  
+                results.appendChild(div);  
+            });  
+            results.style.display = "block";  
+        } else {  
+            results.style.display = "none";  
+        }  
+    }  
+
+    function addToCart() {  
+        cartCount++;  
+        document.getElementById("cartCount").innerText = cartCount;  
+        alert("Item added to cart!");  
+    }  
+
+    function viewCart() {  
+        alert("You have " + cartCount + " items in your cart.");  
+    }  
+
+    function toggleAccountMenu() {  
+        let menu = document.getElementById('accountMenu');  
+        menu.style.display = menu.style.display === "block" ? "none" : "block";  
+    }  
+
+    window.onclick = function(event) {  
+        if (!event.target.matches('.account')) {  
+            document.getElementById('accountMenu').style.display = "none";  
+        }  
+    };  
+</script>
+
+</body>  
+</html>  Add more features like add top images which is slides one by one , add products container for product and 
+
